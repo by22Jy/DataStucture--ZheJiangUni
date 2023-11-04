@@ -1,5 +1,6 @@
     // 题目描述: 给定N个整数序列 求序列和的最大值
     // 通过分而治之的思想 可以划分为每小块去处理
+    // 时间复杂度 o(nlogn)
 
     #include<iostream>
     using namespace std;
