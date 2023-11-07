@@ -4,17 +4,19 @@ using namespace std;
 
 class List{
     public:
-    List():addr("-1"),expon(0),aimAddr("-1"),link(nullptr){}
-    List(string a,int e,string b):addr(a),expon(e),aimAddr(b),link(nullptr){}
+    List():addr("-1"),expon(0),aimAddr("-1"),link(nullptr),pre(nullptr){}
+    List(string a,int e,string b):addr(a),expon(e),aimAddr(b),link(nullptr),pre(nullptr){}
     string addr;
     int expon;
     string aimAddr;
     List *link;
+    List *pre;
 };
 
 void attach(string a,int e,string b,List *&pRear){
     List *p = new List(a,e,b);
     pRear->link = p;
+    p->pre = pRear;
     pRear = p;
 }
 
@@ -59,22 +61,23 @@ void Connect(List *&l,string StartAddress,int numOfNode,List *array){
     }
 }
 
-List* Reverse(List *&L,int numOfReverse,int numOfNode){
-    if(L->link == nullptr) return L;
-    int ReverseTimes = numOfNode / numOfReverse;
-    List *p = L->link;
-    for(int i=1;i<=ReverseTimes;i++){
-        for(int j=(i-1)*numOfReverse;j<(i-1)*numOfReverse+numOfReverse/2;j++){
-            List *temp = p;
-            for(int k=1;k<=numOfReverse-j;k++){
-                temp = temp->link;
+List* Reverse(List *array,int numOfNode,int numOfReverse){
+    List *L = new List;
+    int reverseCount = numOfNode/numOfReverse;
+    for(int i=1;i<=reverseCount;i++){
+        for(int j=(i-1)*numOfReverse+1;j<i*numOfReverse;j++){
+            if(j-1 == 0){
+                array[j-1].aimAddr = array[j-1+numOfReverse].addr;
             }
-            swap(p->addr,temp->addr);
-            swap(p->expon,temp->expon);
-            swap(p->aimAddr,temp->aimAddr);
-            p = p->link;
+            else if(j-1>0){
+                array[j-1].aimAddr = array[j-1+numOfReverse].addr;
+                array[j-2].aimAddr = array[j-1].addr;
+            }
+            array[j].aimAddr = array[j-1].addr;    
         }
     }
+    string startNum = array[0].addr;
+    Connect(L,startNum,numOfNode,array);
     return L;
 }
 
@@ -93,5 +96,5 @@ int main()
     
     List *L2 = new List;
     L2 = Reverse(L,numOfReverse,numOfNode);
-    PlayList(L2);
+    PlayList(L);
 }
