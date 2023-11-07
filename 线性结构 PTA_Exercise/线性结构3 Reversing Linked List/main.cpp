@@ -2,6 +2,7 @@
 #include<string>
 using namespace std;
 
+// 存在问题
 class List{
     public:
     List():addr("-1"),expon(0),aimAddr("-1"),link(nullptr),pre(nullptr){}
