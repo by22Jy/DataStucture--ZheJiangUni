@@ -61,24 +61,21 @@ void Connect(List *&l,string StartAddress,int numOfNode,List *array){
     }
 }
 
-List* Reverse(List *array,int numOfNode,int numOfReverse){
-    List *L = new List;
-    int reverseCount = numOfNode/numOfReverse;
-    for(int i=1;i<=reverseCount;i++){
-        for(int j=(i-1)*numOfReverse+1;j<i*numOfReverse;j++){
-            if(j-1 == 0){
-                array[j-1].aimAddr = array[j-1+numOfReverse].addr;
+List* Reverse(List *L,int numOfNode,int numOfReverse){
+    if(numOfReverse > numOfNode)
+        return L;
+    reverse_time = numOfNode/numOfReverse;
+    List *L1 = new List;
+    List *p = L->link;
+    // 需要翻转几次
+    for(int i=1;i<=reverse_time;i++){
+        // 遍历点
+        for(int j=(i-1)*numOfReverse;j<i*numOfReverse;j++){
+            if(j == (i-1)*numOfReverse){
+
             }
-            else if(j-1>0){
-                array[j-1].aimAddr = array[j-1+numOfReverse].addr;
-                array[j-2].aimAddr = array[j-1].addr;
-            }
-            array[j].aimAddr = array[j-1].addr;    
         }
     }
-    string startNum = array[0].addr;
-    Connect(L,startNum,numOfNode,array);
-    return L;
 }
 
 int main()
@@ -95,6 +92,6 @@ int main()
     Connect(L, StartAddress, numOfNode, array);
     
     List *L2 = new List;
-    L2 = Reverse(L,numOfReverse,numOfNode);
-    PlayList(L);
+    L2 = Reverse(L,numOfNode,numOfReverse);
+    PlayList(L2);
 }
